@@ -1,0 +1,104 @@
+# ============================================================
+# Model Configuration — SaaS Churn Prediction Engine
+# ============================================================
+# Override default hyperparameters defined in src/train.py.
+# Only specify values you want to change from defaults.
+# ============================================================
+
+project:
+  name: "RavenStack Churn Prediction"
+  version: "0.1.0"
+  random_state: 42
+  test_size: 0.2
+
+# ------------------------------------
+# Data paths
+# ------------------------------------
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  abt_merged: "data/processed/abt_merged.csv"
+  abt_cleaned: "data/processed/abt_cleaned.csv"
+  abt_features: "data/processed/abt_features.csv"
+
+# ------------------------------------
+# Preprocessing
+# ------------------------------------
+preprocessing:
+  missing_numeric_strategy: "median"       # median | mean | zero
+  missing_categorical_strategy: "mode"     # mode | unknown
+  missing_threshold: 0.60                  # drop cols > 60% missing
+  outlier_lower_pct: 0.01
+  outlier_upper_pct: 0.99
+  leakage_auc_threshold: 0.95
+
+# ------------------------------------
+# Feature Engineering
+# ------------------------------------
+features:
+  encoding_method: "onehot"                # onehot | label
+  max_cardinality: 10                      # above this → label encode
+  new_account_threshold_days: 30
+
+# ------------------------------------
+# Models — Hyperparameters
+# ------------------------------------
+models:
+  dummy:
+    params:
+      strategy: "most_frequent"
+
+  logistic_regression:
+    params:
+      max_iter: 1000
+      C: 1.0
+      class_weight: "balanced"
+      solver: "lbfgs"
+
+  random_forest:
+    params:
+      n_estimators: 200
+      max_depth: 15
+      min_samples_split: 10
+      min_samples_leaf: 5
+      class_weight: "balanced"
+
+  gradient_boosting:
+    params:
+      n_estimators: 200
+      max_depth: 5
+      learning_rate: 0.1
+      min_samples_split: 10
+      min_samples_leaf: 5
+      subsample: 0.8
+
+# ------------------------------------
+# Cross-Validation
+# ------------------------------------
+cross_validation:
+  n_folds: 5
+  scoring:
+    - recall
+    - f1
+    - roc_auc
+
+# ------------------------------------
+# Evaluation
+# ------------------------------------
+evaluation:
+  classification_threshold: 0.5
+  feature_importance_top_n: 20
+  figures_dir: "reports/figures"
+  reports_dir: "reports"
+
+# ------------------------------------
+# Inference
+# ------------------------------------
+inference:
+  default_model: "gradient_boosting"
+  threshold: 0.5
+  risk_tiers:
+    low: [0, 0.25]
+    medium: [0.25, 0.50]
+    high: [0.50, 0.75]
+    critical: [0.75, 1.0]

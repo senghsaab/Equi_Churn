@@ -1,0 +1,9 @@
+=== dummy ===
+              precision    recall  f1-score   support
+
+ Not Churned       0.78      1.00      0.88        78
+     Churned       0.00      0.00      0.00        22
+
+    accuracy                           0.78       100
+   macro avg       0.39      0.50      0.44       100
+weighted avg       0.61      0.78      0.68       100

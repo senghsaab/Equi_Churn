@@ -1,0 +1,9 @@
+=== random_forest ===
+              precision    recall  f1-score   support
+
+ Not Churned       0.78      0.99      0.87        78
+     Churned       0.00      0.00      0.00        22
+
+    accuracy                           0.77       100
+   macro avg       0.39      0.49      0.44       100
+weighted avg       0.61      0.77      0.68       100

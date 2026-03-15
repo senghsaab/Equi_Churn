@@ -1,0 +1,9 @@
+=== logistic_regression ===
+              precision    recall  f1-score   support
+
+ Not Churned       0.82      0.60      0.70        78
+     Churned       0.28      0.55      0.37        22
+
+    accuracy                           0.59       100
+   macro avg       0.55      0.57      0.53       100
+weighted avg       0.70      0.59      0.62       100
