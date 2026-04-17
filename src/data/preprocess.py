@@ -54,12 +54,12 @@ BOLD = "\033[1m";  RESET = "\033[0m";  GREEN = "\033[32m";  CYAN = "\033[36m"
 
 def section(title: str):
     print()
-    print(f"{BOLD}{'═'*70}{RESET}")
+    print(f"{BOLD}{'='*70}{RESET}")
     print(f"{BOLD}  {title}{RESET}")
-    print(f"{BOLD}{'═'*70}{RESET}")
+    print(f"{BOLD}{'='*70}{RESET}")
 
 def sub(title: str):
-    print(f"\n{CYAN}  ── {title} ──{RESET}")
+    print(f"\n{CYAN}  -- {title} --{RESET}")
 
 # ══════════════════════════════════════════════
 # 1. LOAD & INSPECT
@@ -77,9 +77,21 @@ TARGET = 'churned'
 y_raw  = df[TARGET].values
 
 # Identify categorical columns present in this dataset
-# (industry not in Stage-1 data; gracefully skip if absent)
-CATEGORICAL_COLS = [c for c in ['company_size', 'contract_type'] if c in df.columns]
-NUMERIC_COLS     = [c for c in df.columns if c not in CATEGORICAL_COLS + [TARGET]]
+# Auto-detect ALL string/object columns for label encoding
+STRING_COLS = df.select_dtypes(include=['object']).columns.tolist()
+if TARGET in STRING_COLS:
+    STRING_COLS.remove(TARGET)
+
+# Separate date columns (drop them — not useful for scaling)
+DATE_COLS = [c for c in STRING_COLS if 'date' in c.lower()]
+CATEGORICAL_COLS = [c for c in STRING_COLS if c not in DATE_COLS]
+
+# Drop date columns from the DataFrame
+if DATE_COLS:
+    print(f"\n  Dropping date columns: {DATE_COLS}")
+    df.drop(columns=DATE_COLS, inplace=True)
+
+NUMERIC_COLS = [c for c in df.columns if c not in CATEGORICAL_COLS + [TARGET]]
 
 print(f"\n  Categorical cols : {CATEGORICAL_COLS}")
 print(f"  Numeric cols     : {len(NUMERIC_COLS)}")
@@ -97,10 +109,10 @@ for col in CATEGORICAL_COLS:
     df[col] = le.fit_transform(df[col])
     label_encoders[col]    = le
     encoding_mappings[col] = {
-        int(cls): int(enc)
+        str(cls): int(enc)
         for cls, enc in zip(le.classes_, le.transform(le.classes_))
     }
-    sub(f"{col}  →  {encoding_mappings[col]}")
+    sub(f"{col}  ->  {encoding_mappings[col]}")
 
 # Save label encoders
 le_path = os.path.join(MODELS_DIR, "label_encoders.pkl")
@@ -112,8 +124,8 @@ mapping_path = os.path.join(PROC_DIR, "encoding_mappings.json")
 with open(mapping_path, "w") as f:
     json.dump(encoding_mappings, f, indent=2)
 
-print(f"\n  {GREEN}Label encoders saved  →  {le_path}{RESET}")
-print(f"  {GREEN}Encoding map  saved   →  {mapping_path}{RESET}")
+print(f"\n  {GREEN}Label encoders saved  ->  {le_path}{RESET}")
+print(f"  {GREEN}Encoding map  saved   ->  {mapping_path}{RESET}")
 
 # ══════════════════════════════════════════════
 # 3. TRAIN / VAL / TEST SPLIT
@@ -152,13 +164,13 @@ X_test_sc  = scaler.transform(X_test)         # transform only
 
 print("""
   DATA LEAKAGE EXPLANATION
-  ─────────────────────────────────────────────────────────────────────
+  -------------------------------------------------------------------
   Fitting the scaler on validation/test data would expose their mean
   and variance to the pipeline before evaluation — a form of data
   leakage that artificially inflates generalisation metrics.
   The scaler is therefore fitted ONLY on X_train; val/test are
   transformed using those training statistics.
-  ─────────────────────────────────────────────────────────────────────
+  -------------------------------------------------------------------
 """)
 
 sub("Scaler statistics (first 5 features)")
@@ -169,29 +181,29 @@ for i in range(min(5, len(feat_names))):
 scaler_path = os.path.join(MODELS_DIR, "scaler.pkl")
 with open(scaler_path, "wb") as f:
     pickle.dump(scaler, f)
-print(f"\n  {GREEN}Scaler saved  →  {scaler_path}{RESET}")
+print(f"\n  {GREEN}Scaler saved  ->  {scaler_path}{RESET}")
 
 # ══════════════════════════════════════════════
 # 5. SMOTE (train only, post-scaling)
 # ══════════════════════════════════════════════
-section("SMOTE — CLASS IMBALANCE CORRECTION")
+section("SMOTE - CLASS IMBALANCE CORRECTION")
 
 print("""
   WHY SMOTE AFTER SCALING?
-  ─────────────────────────────────────────────────────────────────────
+  -------------------------------------------------------------------
   SMOTE generates synthetic minority-class samples by interpolating
   between real neighbours in feature space. If run on raw/unscaled
-  data, features with large magnitudes (e.g. api_calls_monthly ~10⁵)
+  data, features with large magnitudes (e.g. api_calls_monthly ~10^5)
   dominate the kNN distance metric, creating biased synthetic points.
   Scaling first ensures every feature contributes equally to the
-  neighbourhood calculation → higher-quality synthetic samples.
-  ─────────────────────────────────────────────────────────────────────
+  neighbourhood calculation -> higher-quality synthetic samples.
+  -------------------------------------------------------------------
 """)
 
 sub("Class distribution BEFORE SMOTE")
 unique, counts = np.unique(y_train, return_counts=True)
 for cls, cnt in zip(unique, counts):
-    print(f"    Class {int(cls)}  →  {cnt:>5} samples  ({cnt/len(y_train)*100:.1f}%)")
+    print(f"    Class {int(cls)}  ->  {cnt:>5} samples  ({cnt/len(y_train)*100:.1f}%)")
 
 smote = SMOTE(random_state=RANDOM_STATE, k_neighbors=5)
 X_train_sm, y_train_sm = smote.fit_resample(X_train_sc, y_train)
@@ -199,7 +211,7 @@ X_train_sm, y_train_sm = smote.fit_resample(X_train_sc, y_train)
 sub("Class distribution AFTER SMOTE")
 unique, counts = np.unique(y_train_sm, return_counts=True)
 for cls, cnt in zip(unique, counts):
-    print(f"    Class {int(cls)}  →  {cnt:>5} samples  ({cnt/len(y_train_sm)*100:.1f}%)")
+    print(f"    Class {int(cls)}  ->  {cnt:>5} samples  ({cnt/len(y_train_sm)*100:.1f}%)")
 
 print(f"\n    Net new synthetic samples added: {len(y_train_sm) - len(y_train)}")
 
@@ -226,11 +238,11 @@ X_val_3d   = X_val_sc.reshape(X_val_sc.shape[0], X_val_sc.shape[1], 1)
 X_test_3d  = X_test_sc.reshape(X_test_sc.shape[0], X_test_sc.shape[1], 1)
 
 print(f"""
-    X_train_2d : {X_train_2d.shape}   ← ML + ANN
+    X_train_2d : {X_train_2d.shape}   <- ML + ANN
     X_val_2d   : {X_val_2d.shape}
     X_test_2d  : {X_test_2d.shape}
 
-    X_train_3d : {X_train_3d.shape}  ← LSTM / GRU / 1-D CNN
+    X_train_3d : {X_train_3d.shape}  <- LSTM / GRU / 1-D CNN
     X_val_3d   : {X_val_3d.shape}
     X_test_3d  : {X_test_3d.shape}
 """)
@@ -266,24 +278,24 @@ test_set  = set(test_idx)
 train_set = set(train_idx)
 val_set   = set(val_idx)
 
-assert len(train_set & val_set)  == 0, "LEAK: train ∩ val"
-assert len(train_set & test_set) == 0, "LEAK: train ∩ test"
-assert len(val_set   & test_set) == 0, "LEAK: val ∩ test"
+assert len(train_set & val_set)  == 0, "LEAK: train & val overlap"
+assert len(train_set & test_set) == 0, "LEAK: train & test overlap"
+assert len(val_set   & test_set) == 0, "LEAK: val & test overlap"
 
-print(f"\n  {GREEN}✓ No leakage between train, val, test (intersection = 0){RESET}")
+print(f"\n  {GREEN}[OK] No leakage between train, val, test (intersection = 0){RESET}")
 
 # Churn rate preservation check
 for name, arr in [("Train", y_train), ("Val", y_val), ("Test", y_test)]:
     rate = arr.mean() * 100
     assert abs(rate - 20.0) < 2.5, f"Churn rate in {name} deviates: {rate:.2f}%"
-    print(f"  {GREEN}✓ {name} churn rate = {rate:.2f}%  (target ~20%){RESET}")
+    print(f"  {GREEN}[OK] {name} churn rate = {rate:.2f}%  (target ~20%){RESET}")
 
 # Scaler fitted on train only — verify mean on test is not ≈0 before transform
 raw_test_mean = X_test.mean(axis=0)[:3]
 sc_test_mean  = X_test_sc.mean(axis=0)[:3]
-print(f"\n  Scaler sanity (first 3 feats — test raw mean vs transformed mean):")
+print(f"\n  Scaler sanity (first 3 feats - test raw mean vs transformed mean):")
 for i, (r, t) in enumerate(zip(raw_test_mean, sc_test_mean)):
-    print(f"    feat_{i}: raw={r:.4f}  →  scaled={t:.4f}")
+    print(f"    feat_{i}: raw={r:.4f}  ->  scaled={t:.4f}")
 
 # ══════════════════════════════════════════════
 # 8. SAVE PREPROCESSED ARRAYS
@@ -309,9 +321,9 @@ np.savez_compressed(
 with open(os.path.join(PROC_DIR, "class_weights.json"), "w") as f:
     json.dump({str(k): v for k, v in class_weight_balanced.items()}, f, indent=2)
 
-print(f"  {GREEN}splits_2d.npz saved   →  {PROC_DIR}{RESET}")
-print(f"  {GREEN}splits_3d.npz saved   →  {PROC_DIR}{RESET}")
-print(f"  {GREEN}class_weights.json    →  {PROC_DIR}{RESET}")
+print(f"  {GREEN}splits_2d.npz saved   ->  {PROC_DIR}{RESET}")
+print(f"  {GREEN}splits_3d.npz saved   ->  {PROC_DIR}{RESET}")
+print(f"  {GREEN}class_weights.json    ->  {PROC_DIR}{RESET}")
 
 # ══════════════════════════════════════════════
 # 9. FINAL SHAPE REPORT
@@ -320,27 +332,27 @@ section("FINAL SHAPE REPORT")
 
 print(f"""
   2-D Arrays (for ML + ANN)
-  ┌──────────────┬─────────────────┬───────────────┐
-  │  Split       │  X shape        │  y shape      │
-  ├──────────────┼─────────────────┼───────────────┤
-  │  Train (SM)  │  {str(X_train_2d.shape):<15}  │  {str(y_train_sm.shape):<13}│
-  │  Val         │  {str(X_val_2d.shape):<15}  │  {str(y_val.shape):<13}│
-  │  Test        │  {str(X_test_2d.shape):<15}  │  {str(y_test.shape):<13}│
-  └──────────────┴─────────────────┴───────────────┘
+  +--------------+-----------------+---------------+
+  |  Split       |  X shape        |  y shape      |
+  +--------------+-----------------+---------------+
+  |  Train (SM)  |  {str(X_train_2d.shape):<15}  |  {str(y_train_sm.shape):<13}|
+  |  Val         |  {str(X_val_2d.shape):<15}  |  {str(y_val.shape):<13}|
+  |  Test        |  {str(X_test_2d.shape):<15}  |  {str(y_test.shape):<13}|
+  +--------------+-----------------+---------------+
 
   3-D Arrays (for LSTM / GRU / 1-D CNN)
-  ┌──────────────┬────────────────────┬───────────────┐
-  │  Split       │  X shape           │  y shape      │
-  ├──────────────┼────────────────────┼───────────────┤
-  │  Train (SM)  │  {str(X_train_3d.shape):<18}  │  {str(y_train_sm.shape):<13}│
-  │  Val         │  {str(X_val_3d.shape):<18}  │  {str(y_val.shape):<13}│
-  │  Test        │  {str(X_test_3d.shape):<18}  │  {str(y_test.shape):<13}│
-  └──────────────┴────────────────────┴───────────────┘
+  +--------------+--------------------+---------------+
+  |  Split       |  X shape           |  y shape      |
+  +--------------+--------------------+---------------+
+  |  Train (SM)  |  {str(X_train_3d.shape):<18}  |  {str(y_train_sm.shape):<13}|
+  |  Val         |  {str(X_val_3d.shape):<18}  |  {str(y_val.shape):<13}|
+  |  Test        |  {str(X_test_3d.shape):<18}  |  {str(y_test.shape):<13}|
+  +--------------+--------------------+---------------+
 
   Total coverage  :  {len(y_train_sm) + len(y_val) + len(y_test) - (len(y_train_sm)-len(y_train))}
                      (original 5000 + {len(y_train_sm)-len(y_train)} SMOTE synthetics in train)
 """)
 
-print(f"{BOLD}{'═'*70}{RESET}")
-print(f"{GREEN}{BOLD}  Stage 2 Complete — Preprocessing Pipeline Ready ✅{RESET}")
-print(f"{BOLD}{'═'*70}{RESET}")
+print(f"{BOLD}{'='*70}{RESET}")
+print(f"{GREEN}{BOLD}  Stage 2 Complete - Preprocessing Pipeline Ready [DONE]{RESET}")
+print(f"{BOLD}{'='*70}{RESET}")

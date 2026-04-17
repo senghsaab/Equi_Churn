@@ -2,20 +2,60 @@
 # .gitignore — SaaS Churn Prediction Engine
 # =============================================
 
-# --- Data (raw data should not be committed) ---
+# -----------------------------------------------
+# DATA — all raw, interim, processed, and external
+# -----------------------------------------------
 data/raw/
 data/interim/
-data/processed/*.csv
+data/processed/
+data/external/
+# Keep the data README for documentation
+!data/raw/README.md
 
-# --- Trained models ---
+# -----------------------------------------------
+# MODELS — all serialized models & artifacts
+# -----------------------------------------------
 models/*.pkl
 models/*.joblib
+models/*.h5
+models/*.hdf5
+models/*.keras
+models/*.pt
+models/*.pth
+models/*.onnx
+models/ml/*.pkl
+models/ml/*.joblib
+models/dl/
+models/tuning/
+models/registry/
+# Keep .gitkeep placeholders
+!models/dl/.gitkeep
+!models/ml/.gitkeep
+!models/tuning/.gitkeep
+!models/registry/.gitkeep
 
-# --- Logs ---
+# -----------------------------------------------
+# NUMPY / SCIPY BINARY DATA
+# -----------------------------------------------
+*.npz
+*.npy
+
+# -----------------------------------------------
+# MLflow — tracking server, runs, and database
+# -----------------------------------------------
+mlruns/
+mlflow.db
+mlartifacts/
+
+# -----------------------------------------------
+# LOGS
+# -----------------------------------------------
 logs/
 *.log
 
-# --- Python ---
+# -----------------------------------------------
+# PYTHON
+# -----------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -25,27 +65,54 @@ dist/
 build/
 .eggs/
 
-# --- Virtual environments ---
+# -----------------------------------------------
+# VIRTUAL ENVIRONMENTS
+# -----------------------------------------------
 venv/
+venv_old/
 env/
 .venv/
 .env
 
-# --- Jupyter ---
-.ipynb_checkpoints/
-*.ipynb_checkpoints
+# -----------------------------------------------
+# TEST / COVERAGE
+# -----------------------------------------------
+.coverage
+.pytest_cache/
+htmlcov/
 
-# --- IDE ---
+# -----------------------------------------------
+# JUPYTER
+# -----------------------------------------------
+.ipynb_checkpoints/
+
+# -----------------------------------------------
+# IDE
+# -----------------------------------------------
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# --- OS ---
+# -----------------------------------------------
+# OS
+# -----------------------------------------------
 .DS_Store
 Thumbs.db
 
-# --- Reports (generated figures can be large) ---
+# -----------------------------------------------
+# REPORTS — generated figures (keep markdown/text)
+# -----------------------------------------------
 reports/figures/*.png
 reports/figures/*.pdf
+reports/figures/*.jpg
+reports/figures/*.svg
+
+# -----------------------------------------------
+# MISC — temp files and scratch
+# -----------------------------------------------
+null
+New folder/
+tmp_*.py
+tmp_*.txt

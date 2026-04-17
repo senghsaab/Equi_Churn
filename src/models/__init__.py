@@ -1,1 +1,1 @@
-"""B2B SaaS Churn — models package."""
+"""B2B SaaS Churn â€” models package."""

@@ -40,6 +40,25 @@ EXPECTED_FILES = [
     "ravenstack_churn_events.csv",
 ]
 
+# Dataset source labeling — required for CI/CD disclaimer verification
+# and DPDP Act 2023 audit trail compliance.
+dataset_source = {
+    "primary": {
+        "name": "SDV Synthetic SaaS (RavenStack)",
+        "type": "synthetic",
+        "generator": "SDV Copula",
+        "kaggle_proxy": False,
+        "limitation": "Synthetic data; no real customer PII",
+    },
+    "secondary": {
+        "name": "Kaggle Bank Churn Dataset",
+        "type": "kaggle_proxy",
+        "kaggle_proxy": True,
+        "url": "https://www.kaggle.com/datasets/shantanudhakadd/bank-customer-churn-prediction",
+        "limitation": "Proxy dataset; domain differs from primary SaaS context",
+    },
+}
+
 
 # ---------------------------------------------------------------------------
 # Core Functions

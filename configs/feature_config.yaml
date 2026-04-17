@@ -1,0 +1,79 @@
+# EquiChurn Feature Configuration
+
+saas:
+  dataset_name: "B2B SaaS"
+  target_column: "churned"
+  protected_attributes: ["age_group", "region"]
+  
+  # Source columns for engineered features
+  raw_mappings:
+    tenure_start: "subscription_start_date"
+    tenure_ref: "reference_date"
+    last_activity: "last_activity_date"
+    usage_total: "total_events"
+    usage_days: "active_days"
+    usage_l30: "usage_last_30d"
+    usage_p30: "usage_prev_30d"
+    seats_purchased: "seats_purchased"
+    seats_active: "seats_active"
+    features_avail: "features_available"
+    features_used: "features_used"
+    tickets_total: "total_tickets"
+    tickets_open: "open_tickets"
+    mrr: "mrr"
+    module_flags: ["module_1_active", "module_2_active", "module_3_active", "module_4_active", "module_5_active"]
+    near_renewal_days: "contract_renewal_days"
+
+  # Final feature classification (Post-Engineering)
+  numeric_features: 
+    - "tenure_months"
+    - "usage_intensity"
+    - "active_day_ratio"
+    - "days_since_last_activity"
+    - "usage_trend_30d"
+    - "seat_utilization"
+    - "feature_adoption_rate"
+    - "module_adoption_score"
+    - "support_ticket_rate"
+    - "unresolved_ticket_ratio"
+    - "revenue_per_seat"
+  
+  categorical_features:
+    - "plan_type"
+    - "customer_segment"
+    - "tenure_bucket"
+    - "mrr_segment"
+
+  binary_flags:
+    - "near_renewal"
+    - "executive_sponsor"
+    - "competitor_evaluation"
+
+bank:
+  dataset_name: "Kaggle Bank"
+  target_column: "Exited"
+  protected_attributes: ["Geography", "Gender"]
+  
+  # Simplified mapping for Bank data (Limited engineering possible)
+  raw_mappings:
+    tenure_months: "Tenure" # Bank tenure is usually years
+    total_events: "IsActiveMember" # Binary proxy
+    usage_intensity: "IsActiveMember"
+    mrr: "Balance"
+    seats: "NumOfProducts"
+
+  numeric_features:
+    - "CreditScore"
+    - "Age"
+    - "Tenure"
+    - "Balance"
+    - "NumOfProducts"
+    - "EstimatedSalary"
+  
+  categorical_features:
+    - "Geography"
+    - "Gender"
+  
+  binary_flags:
+    - "HasCrCard"
+    - "IsActiveMember"

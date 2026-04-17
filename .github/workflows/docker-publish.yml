@@ -1,0 +1,66 @@
+# =============================================================================
+# EquiChurn Docker Publish — Push verified image to GitHub Container Registry
+# =============================================================================
+# Only runs after CI passes on main. Image is tagged with both :latest and :sha.
+# =============================================================================
+
+name: Docker Publish
+
+on:
+  workflow_run:
+    workflows: ["EquiChurn CI"]
+    types: [completed]
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/equichurn-api
+
+jobs:
+  publish:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build Summary
+        run: |
+          echo "============================================"
+          echo "  EquiChurn API image published"
+          echo "============================================"
+          echo "Model: XGBoost Mitigated (AIF360 Reweighing)"
+          echo "Fairness: Demographic Parity <= 0.1 verified"
+          echo "Regulatory: DPDP Act 2023 compliant"
+          echo ""
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "============================================"

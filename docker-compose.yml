@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  equichurn-api:
+    build: .
+    container_name: equichurn_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+    depends_on:
+      - mlflow-server
+
+  mlflow-server:
+    image: python:3.10-slim
+    container_name: mlflow_server
+    command: >
+      bash -c "pip install mlflow && 
+               mlflow server --host 0.0.0.0 --port 5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns

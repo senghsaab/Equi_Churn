@@ -1,1 +1,1 @@
-"""B2B SaaS Churn — utils package."""
+"""B2B SaaS Churn â€” utils package."""

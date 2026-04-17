@@ -1,0 +1,6 @@
+Metric,Synthetic SaaS,Kaggle Bank
+Churn Rate %,20.00%,20.37%
+Class Balance (Minority %),20.0%,20.4%
+Avg Tenure/Activity,224.5 days,5.0 years
+Avg Revenue/Balance,$56075.3,76485.9 units
+Demographic bias (Region/Geo max diff),25.5%,16.3%

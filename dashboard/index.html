@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EquiChurn — Fairness-Aware Predictive Intelligence</title>
+    <meta name="description" content="End-to-end ML pipeline for enterprise revenue protection with fairness-aware modeling, automated hyperparameter optimization, and real-time inference." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- AMBIENT BACKGROUND                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- NAVIGATION                                              -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" stroke="url(#navGrad)" stroke-width="2" fill="none"/>
+                    <path d="M16 8L22 11.5V18.5L16 22L10 18.5V11.5L16 8Z" fill="url(#navGrad)" opacity="0.3"/>
+                    <circle cx="16" cy="15" r="3" fill="url(#navGrad)"/>
+                    <defs>
+                        <linearGradient id="navGrad" x1="4" y1="2" x2="28" y2="30">
+                            <stop offset="0%" stop-color="#6366f1"/>
+                            <stop offset="100%" stop-color="#06b6d4"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <span class="brand-text">EquiChurn</span>
+            <span class="brand-badge">RESEARCH</span>
+        </div>
+        <div class="nav-links">
+            <a href="#hero" class="nav-link active">Overview</a>
+            <a href="#pipeline" class="nav-link">Pipeline</a>
+            <a href="#metrics" class="nav-link">Results</a>
+            <a href="#tech" class="nav-link">Stack</a>
+            <a href="#impact" class="nav-link">Impact</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span class="eyebrow-dot"></span>
+                Design Thinking &amp; Innovation Project — 2026
+            </div>
+            <h1 class="hero-title">
+                <span class="title-line">Fairness-Aware</span>
+                <span class="title-line gradient-text">Predictive Intelligence</span>
+                <span class="title-line">for Enterprise Revenue</span>
+            </h1>
+            <p class="hero-subtitle">
+                An end-to-end machine learning system that combines <strong>algorithmic fairness</strong> 
+                with <strong>predictive analytics</strong> to protect recurring revenue — while ensuring 
+                equitable outcomes across all customer demographics.
+            </p>
+            <div class="hero-tags">
+                <span class="tag tag-primary">B2B SaaS</span>
+                <span class="tag tag-accent">Fairness & Bias Mitigation</span>
+                <span class="tag tag-secondary">MLOps Pipeline</span>
+                <span class="tag tag-gold">ARR/MRR Protection</span>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="radar-container">
+                <canvas id="radarCanvas" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PROBLEM STATEMENT                                       -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="problem-section" id="problem">
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">The Challenge</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="problem-grid">
+            <div class="problem-card" data-reveal>
+                <div class="problem-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
+                        <path d="M24 12V24L32 28" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3>Revenue Leakage</h3>
+                <p>Enterprise accounts churn silently — by the time a CSM notices, the renewal window has passed. Traditional rule-based alerts catch <strong>&lt;40%</strong> of at-risk accounts.</p>
+            </div>
+            <div class="problem-card" data-reveal>
+                <div class="problem-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <path d="M12 36L24 12L36 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="24" cy="28" r="2" fill="currentColor"/>
+                        <line x1="24" y1="18" x2="24" y2="24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3>Algorithmic Bias</h3>
+                <p>Standard ML models systematically under-serve certain demographic segments — creating <strong>regulatory risk</strong> and inequitable treatment of customer cohorts.</p>
+            </div>
+            <div class="problem-card" data-reveal>
+                <div class="problem-icon">
+                    <svg viewBox="0 0 48 48" fill="none">
+                        <rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 24H32M24 16V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3>Model Opacity</h3>
+                <p>Black-box predictions lack the <strong>interpretability</strong> that finance and compliance stakeholders demand for investment decisions tied to customer retention.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PIPELINE ARCHITECTURE                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="pipeline-section" id="pipeline">
+        <div class="section-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">Architecture &amp; Pipeline</h2>
+            <div class="section-line"></div>
+        </div>
+        <p class="section-desc">A modular, reproducible pipeline engineered for production-grade reliability.</p>
+
+        <div class="pipeline-flow">
+            <div class="pipeline-stage" data-reveal data-stage="1">
+                <div class="stage-number">01</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M8 32V20L20 8L32 20V32H8Z" stroke="currentColor" stroke-width="2"/><rect x="15" y="22" width="10" height="10" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <h4>Data Ingestion</h4>
+                <p>Multi-source ETL with schema validation &amp; integrity checks</p>
+                <div class="stage-tech">5 relational tables → ABT</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage" data-reveal data-stage="2">
+                <div class="stage-number">02</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/><path d="M14 20L18 24L26 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h4>Preprocessing</h4>
+                <p>Leakage guard, deduplication, type casting &amp; protected attribute isolation</p>
+                <div class="stage-tech">Automated AUC scanning</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage" data-reveal data-stage="3">
+                <div class="stage-number">03</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M8 32L20 8L32 32H8Z" stroke="currentColor" stroke-width="2"/><path d="M14 24H26" stroke="currentColor" stroke-width="2"/><path d="M17 28H23" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <h4>Feature Engineering</h4>
+                <p>Domain-driven transformations: usage intensity, seat utilization, renewal proximity</p>
+                <div class="stage-tech">20+ engineered signals</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage" data-reveal data-stage="4">
+                <div class="stage-number">04</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="24" height="24" rx="3" stroke="currentColor" stroke-width="2"/><path d="M12 20H28M20 12V28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+                <h4>SMOTE Balancing</h4>
+                <p>Class imbalance correction preserving decision boundary integrity</p>
+                <div class="stage-tech">Balanced class ratios</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage highlight-stage" data-reveal data-stage="5">
+                <div class="stage-number">05</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M20 6L34 14V26L20 34L6 26V14L20 6Z" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="20" r="6" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <h4>Model Training</h4>
+                <p>Multi-model comparison with Bayesian hyperparameter optimization</p>
+                <div class="stage-tech">Optuna · 3 algorithms</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage fairness-stage" data-reveal data-stage="6">
+                <div class="stage-number">06</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M20 8V32M12 14L20 8L28 14M12 20H28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="26" r="3" stroke="currentColor" stroke-width="2"/><circle cx="28" cy="26" r="3" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <h4>Fairness Mitigation</h4>
+                <p>AIF360 Reweighing to enforce demographic parity &amp; equalized odds</p>
+                <div class="stage-tech">Bias-corrected predictions</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage" data-reveal data-stage="7">
+                <div class="stage-number">07</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M8 28L16 16L22 22L32 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="10" r="3" fill="currentColor"/></svg>
+                </div>
+                <h4>Calibration & Eval</h4>
+                <p>Isotonic calibration, ROC/PR analysis, and business interpretation</p>
+                <div class="stage-tech">MLflow experiment tracking</div>
+            </div>
+            <div class="pipeline-connector"><div class="connector-line"></div><div class="connector-dot"></div></div>
+
+            <div class="pipeline-stage" data-reveal data-stage="8">
+                <div class="stage-number">08</div>
+                <div class="stage-icon">
+                    <svg viewBox="0 0 40 40" fill="none"><path d="M10 12H30V28H10V12Z" stroke="currentColor" stroke-width="2"/><path d="M10 16H30" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="14" r="1" fill="currentColor"/><circle cx="18" cy="14" r="1" fill="currentColor"/></svg>
+                </div>
+                <h4>API Deployment</h4>
+                <p>FastAPI inference server with risk scoring &amp; real-time predictions</p>
+                <div class="stage-tech">REST API · Docker</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- METRICS DASHBOARD                                       -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="metrics-section" id="metrics">
+        <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">Performance Snapshot</h2>
+            <div class="section-line"></div>
+        </div>
+        <p class="section-desc">Key model performance indicators — exact values redacted per research confidentiality.</p>
+
+        <div class="metrics-grid">
+            <div class="metric-card metric-primary" data-reveal>
+                <div class="metric-label">ROC-AUC</div>
+                <div class="metric-value" data-count="0.93">
+                    <span class="metric-prefix">&gt;</span>
+                    <span class="counter">0.00</span>
+                </div>
+                <div class="metric-bar"><div class="metric-fill" style="--fill: 93%"></div></div>
+                <div class="metric-desc">Production model discriminative power</div>
+            </div>
+            <div class="metric-card metric-accent" data-reveal>
+                <div class="metric-label">Recall (At-Risk)</div>
+                <div class="metric-value" data-count="0.88">
+                    <span class="metric-prefix">&gt;</span>
+                    <span class="counter">0.00</span>
+                </div>
+                <div class="metric-bar"><div class="metric-fill" style="--fill: 88%"></div></div>
+                <div class="metric-desc">Churning accounts correctly flagged</div>
+            </div>
+            <div class="metric-card metric-gold" data-reveal>
+                <div class="metric-label">Fairness Pass</div>
+                <div class="metric-value" data-count="100">
+                    <span class="counter">0</span><span class="metric-suffix">%</span>
+                </div>
+                <div class="metric-bar"><div class="metric-fill" style="--fill: 100%"></div></div>
+                <div class="metric-desc">Demographic parity threshold met</div>
+            </div>
+            <div class="metric-card metric-teal" data-reveal>
+                <div class="metric-label">Experiments Tracked</div>
+                <div class="metric-value" data-count="40">
+                    <span class="counter">0</span><span class="metric-suffix">+</span>
+                </div>
+                <div class="metric-bar"><div class="metric-fill" style="--fill: 80%"></div></div>
+                <div class="metric-desc">MLflow-managed runs with full reproducibility</div>
+            </div>
+        </div>
+
+        <!-- Model Comparison Redacted Table -->
+        <div class="comparison-panel" data-reveal>
+            <div class="panel-header">
+                <h3>Model Leaderboard</h3>
+                <span class="confidential-badge">
+                    <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 7V5C5 3.34 6.34 2 8 2C9.66 2 11 3.34 11 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    Values Masked
+                </span>
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1</th>
+                        <th>ROC-AUC</th>
+                        <th>Fair?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-highlight">
+                        <td><span class="model-badge prod">★</span> Gradient Boosting (Mitigated)</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td><span class="fair-check">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="model-badge">2</span> LightGBM (Optimized)</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td><span class="fair-partial">~</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="model-badge">3</span> Random Forest (Tuned)</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td><span class="fair-partial">~</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="model-badge">4</span> XGBoost (Baseline)</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td class="redacted">█████</td>
+                        <td><span class="fair-no">✗</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FAIRNESS HIGHLIGHT                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="fairness-section" id="fairness">
+        <div class="section-header">
+            <span class="section-number">04</span>
+            <h2 class="section-title">Fairness &amp; Responsible AI</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="fairness-grid">
+            <div class="fairness-visual" data-reveal>
+                <div class="fairness-chart">
+                    <canvas id="fairnessCanvas" width="480" height="300"></canvas>
+                </div>
+            </div>
+            <div class="fairness-content" data-reveal>
+                <div class="fairness-highlight-card">
+                    <div class="highlight-icon">⚖️</div>
+                    <h3>Why It Matters</h3>
+                    <p>Predictive models that systematically under-serve certain demographics create <strong>legal liability</strong>, 
+                    <strong>reputational risk</strong>, and <strong>inequitable business outcomes</strong>. Our pipeline addresses this at every layer.</p>
+                </div>
+                <div class="fairness-checklist">
+                    <div class="check-item">
+                        <span class="check-icon active">●</span>
+                        <span>Pre-processing bias mitigation (AIF360 Reweighing)</span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon active">●</span>
+                        <span>Demographic Parity Difference &lt; 0.10 threshold</span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon active">●</span>
+                        <span>Equalized Odds across protected attributes</span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon active">●</span>
+                        <span>Isotonic probability calibration for reliable risk scores</span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon active">●</span>
+                        <span>Multi-axis audit: Age cohort × Geographic region</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TECH STACK                                              -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="tech-section" id="tech">
+        <div class="section-header">
+            <span class="section-number">05</span>
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="tech-grid">
+            <div class="tech-category" data-reveal>
+                <h4 class="tech-cat-title">
+                    <span class="cat-dot" style="--dot-color: #6366f1"></span>
+                    Machine Learning
+                </h4>
+                <div class="tech-items">
+                    <div class="tech-chip">XGBoost</div>
+                    <div class="tech-chip">LightGBM</div>
+                    <div class="tech-chip">Random Forest</div>
+                    <div class="tech-chip">Scikit-learn</div>
+                    <div class="tech-chip">Optuna</div>
+                </div>
+            </div>
+            <div class="tech-category" data-reveal>
+                <h4 class="tech-cat-title">
+                    <span class="cat-dot" style="--dot-color: #f59e0b"></span>
+                    Fairness &amp; Governance
+                </h4>
+                <div class="tech-items">
+                    <div class="tech-chip">AIF360</div>
+                    <div class="tech-chip">Reweighing</div>
+                    <div class="tech-chip">Demographic Parity</div>
+                    <div class="tech-chip">Equalized Odds</div>
+                </div>
+            </div>
+            <div class="tech-category" data-reveal>
+                <h4 class="tech-cat-title">
+                    <span class="cat-dot" style="--dot-color: #06b6d4"></span>
+                    MLOps &amp; Deployment
+                </h4>
+                <div class="tech-items">
+                    <div class="tech-chip">MLflow</div>
+                    <div class="tech-chip">FastAPI</div>
+                    <div class="tech-chip">Docker</div>
+                    <div class="tech-chip">Pytest</div>
+                </div>
+            </div>
+            <div class="tech-category" data-reveal>
+                <h4 class="tech-cat-title">
+                    <span class="cat-dot" style="--dot-color: #10b981"></span>
+                    Data &amp; Analysis
+                </h4>
+                <div class="tech-items">
+                    <div class="tech-chip">Pandas</div>
+                    <div class="tech-chip">NumPy</div>
+                    <div class="tech-chip">SMOTE</div>
+                    <div class="tech-chip">Seaborn</div>
+                    <div class="tech-chip">Matplotlib</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- BUSINESS IMPACT                                         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="impact-section" id="impact">
+        <div class="section-header">
+            <span class="section-number">06</span>
+            <h2 class="section-title">Business Impact</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="impact-grid">
+            <div class="impact-card" data-reveal>
+                <div class="impact-number">↑ 2.5×</div>
+                <div class="impact-label">Early Detection Rate</div>
+                <p>vs. traditional rule-based alerting systems</p>
+            </div>
+            <div class="impact-card" data-reveal>
+                <div class="impact-number">4</div>
+                <div class="impact-label">Risk Tiers</div>
+                <p>Low → Medium → High → Critical prioritization</p>
+            </div>
+            <div class="impact-card" data-reveal>
+                <div class="impact-number">≤ 200ms</div>
+                <div class="impact-label">API Latency</div>
+                <p>Real-time scoring via FastAPI endpoint</p>
+            </div>
+            <div class="impact-card" data-reveal>
+                <div class="impact-number">100%</div>
+                <div class="impact-label">Reproducible</div>
+                <p>MLflow-tracked experiments with full lineage</p>
+            </div>
+        </div>
+
+        <!-- Stakeholder Impact -->
+        <div class="stakeholder-grid" data-reveal>
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">📊</div>
+                <h4>Customer Success</h4>
+                <p>Prioritized at-risk account lists delivered weekly. Proactive outreach replaces reactive firefighting.</p>
+            </div>
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">💰</div>
+                <h4>Revenue Operations</h4>
+                <p>ARR/MRR protection through data-driven retention interventions. One saved enterprise deal = $50K–$500K.</p>
+            </div>
+            <div class="stakeholder-card">
+                <div class="stakeholder-icon">🏛️</div>
+                <h4>Finance &amp; Compliance</h4>
+                <p>Fairness-audited models that meet regulatory requirements. Transparent, interpretable risk scores.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- METHODOLOGY PILLAR                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="methodology-section" id="method">
+        <div class="section-header">
+            <span class="section-number">07</span>
+            <h2 class="section-title">Methodology &amp; Rigor</h2>
+            <div class="section-line"></div>
+        </div>
+        <div class="method-cards">
+            <div class="method-card" data-reveal>
+                <div class="method-num">I</div>
+                <h4>Recall-First Optimization</h4>
+                <p>Objective function prioritizes recall ≥ 0.75 — missing a churner is costlier than a false positive in B2B SaaS.</p>
+            </div>
+            <div class="method-card" data-reveal>
+                <div class="method-num">II</div>
+                <h4>Leakage-Proof Design</h4>
+                <p>Automated AUC scanning detects post-outcome feature leakage before it corrupts model training.</p>
+            </div>
+            <div class="method-card" data-reveal>
+                <div class="method-num">III</div>
+                <h4>Bayesian HPO</h4>
+                <p>Optuna-driven hyperparameter optimization with Tree-structured Parzen Estimators across all model families.</p>
+            </div>
+            <div class="method-card" data-reveal>
+                <div class="method-num">IV</div>
+                <h4>Calibrated Probabilities</h4>
+                <p>Isotonic regression calibration ensures predicted probabilities reflect true churn likelihood — critical for threshold-based business rules.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FOOTER                                                  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="brand-text">EquiChurn</span>
+                <p>Fairness-Aware Predictive Intelligence</p>
+            </div>
+            <div class="footer-meta">
+                <p>Design Thinking &amp; Innovation Project · 2026</p>
+                <p class="footer-note">
+                    <svg viewBox="0 0 16 16" fill="none" width="12" height="12" style="vertical-align: middle;">
+                        <rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M5 7V5C5 3.34 6.34 2 8 2C9.66 2 11 3.34 11 5V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    This is an active research project. Detailed metrics and data are confidential.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

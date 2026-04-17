@@ -1,0 +1,18 @@
+# Fairness Configuration - EquiChurn Production
+regulatory_framework: "DPDP Act 2023"
+fairness_threshold: 0.1
+
+protected_attributes:
+  - name: "age_group"
+    unprivileged_regex: "50+"
+    privileged_value: 1
+    unprivileged_value: 0
+  - name: "region"
+    unprivileged_regex: "APAC"
+    privileged_value: 1
+    unprivileged_value: 0
+
+monitoring:
+  audit_log_path: "logs/prediction_audit.json"
+  retention_days: 90
+  alert_on_fairness_violation: true
